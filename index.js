@@ -5,7 +5,12 @@ const db = require("./db");
 
 const app = express();
 
-app.use(express.json());
+app.use(express.json(), (_req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+
+  next();
+});
 
 app.delete("/logs/:id", async (req, res) => {
   await db.deleteLog(req.params.id);
